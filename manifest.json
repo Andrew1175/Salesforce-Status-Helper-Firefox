@@ -1,0 +1,25 @@
+{
+
+  "manifest_version": 2,
+  "name": "Salesforce Status Helper",
+  "version": "1.0",
+
+  "description": "Click your preferred Omni-Channel status. The chosen status will remain active until disabled. This is useful for when Omni-Channel disconnects you unexpectedly and without warning.",
+  "homepage_url": "https://github.com/Andrew1175/Salesforce-Status-Helper",
+  "icons": {
+    "48": "icons/zscaler-icon-96.jpg"
+  },
+
+  "permissions": [
+  "*://*.salesforce.com/*",
+	"*://*.force.com/*",
+	"tabs"
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/zscaler-icon-48.jpg",
+    "default_title": "Status Helper",
+    "default_popup": "popup/choose_status.html"
+  }
+
+}
