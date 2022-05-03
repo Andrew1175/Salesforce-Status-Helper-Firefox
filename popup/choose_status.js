@@ -10,8 +10,6 @@ function listenForClicks() {
 				return "Available";
 				case "Backlog":
 				return "Backlog";
-				case "Offline":
-				return "Offline";
 			}
 		}
 		
@@ -22,16 +20,16 @@ function listenForClicks() {
 					browser.tabs.sendMessage(tabs[i].id, {
 						command: "Backlog"
 					});
-				} else if (status === "Disabled") {
+				} else if (status === "Available") {
 					browser.tabs.sendMessage(tabs[i].id, {
-						command: "Disable"
+						command: "Available"
 					});
 				}
 			}
 				
 		}
 
-		function disable(tabs) {
+		function disableHelper(tabs) {
 			for (var i = 0; i < tabs.length; ++i) {
 				browser.tabs.sendMessage(tabs[i].id, {
 					command: "Disable"
@@ -50,7 +48,7 @@ function listenForClicks() {
 		}
 		else if (e.target.classList.contains("disable")) {
 			browser.tabs.query({})
-				.then(disable)
+				.then(disableHelper)
 				.catch(reportError);
 		}
 
