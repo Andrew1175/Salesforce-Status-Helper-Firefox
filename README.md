@@ -7,3 +7,5 @@ Every 15 seconds the extension will verify that you're still logged in with the 
 
 Feature to come.... maybe:
 - Dropdown menu to input "on-queue hours" and "backlog hours" so that it can sign you in and out automatically
+
+Available on Firefox: https://addons.mozilla.org/en-US/firefox/addon/salesforce-status-helper/
