@@ -11,9 +11,10 @@
   },
 
   "permissions": [
-  "*://*.salesforce.com/*",
-	"*://*.force.com/*",
-	"tabs"
+    "*://*.salesforce.com/*",
+    "*://*.force.com/*",
+    "tabs",
+    "notifications"
   ],
 
   "browser_action": {

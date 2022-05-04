@@ -1,3 +1,8 @@
+var disableNotification = "disable-notification"
+var backlogNotification = "backlog-notification"
+var availableNotification = "available-notification"
+
+
 function listenForClicks() {
 	document.addEventListener("click", (e) => {
 
@@ -56,4 +61,28 @@ function listenForClicks() {
 }
 
 browser.tabs.executeScript({file: "/content_scripts/change_status.js"})
-.then(listenForClicks)
+	.then(listenForClicks)
+
+browser.runtime.onMessage.addListener((message) => {
+	if (message.command === "disableNotification") {
+		browser.notifications.create(disableNotification,{
+			type: "basic",
+			title: "Salesforce Status Helper",
+			message: "Status Helper has been disabled"
+		});
+	}
+	else if (message.command === "backlogNotification") {
+		browser.notifications.create(backlogNotification,{
+			type: "basic",
+			title: "Salesforce Status Helper",
+			message: "Your status has been updated to: Backlog"
+		});
+	}
+	else if (message.command === "availableNotification") {
+		browser.notifications.create(availableNotification,{
+			type: "basic",
+			title: "Salesforce Status Helper",
+			message: "Your status has been updated to: Available"
+		});
+	}
+});
