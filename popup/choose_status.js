@@ -46,7 +46,12 @@ function listenForClicks() {
 			console.error(`Could not set Omni-Channel status: ${error}`);
 		}
 
-		if (e.target.classList.contains("status")) {
+		if (e.target.classList.contains("available")) {
+			browser.tabs.query({})
+				.then(pushStatus)
+				.catch(reportError);
+		}
+		else if (e.target.classList.contains("backlog")) {
 			browser.tabs.query({})
 				.then(pushStatus)
 				.catch(reportError);

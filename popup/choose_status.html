@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Salesforce Status Helper</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="choose_status.css"/>
-  </head>
+</head>
 
-<body>
-  <div id="popup-content">
-    <div class="button status">Available</div>
-    <div class="button status">Backlog</div>
-    <div class="button disable">Disable</div>
-  </div>
-  <div id="error-content" class="hidden">
-    <p>Salesforce isn't open in any tab.</p>
-  </div>
-  <script src="choose_status.js"></script>
+<body class="greymode">
+    <div id="popup-content">
+        <div class="button available">Available</div>
+        <div class="button backlog">Backlog</div>
+        <div class="button disable">Disable</div>
+    </div>
+    <div id="error-content" class="hidden">
+        <p>Salesforce isn't open in any tab.</p>
+    </div>
+    <script src="choose_status.js"></script>
+    <hr />
+    <div id="popup-information">
+        <p class="title">Salesforce Status Helper</p>
+        <p class="version">
+            <a href="https://github.com/Andrew1175/Salesforce-Status-Helper" target="_blank">
+                <img src="/icons/question.png" style="float:right;width:20px;height:20px;" class="tooltiphelp" />
+            </a>1.2
+        </p>
+    </div>
 </body>
 
 </html>

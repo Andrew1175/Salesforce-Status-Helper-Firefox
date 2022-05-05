@@ -6,6 +6,26 @@ html, body {
   display: none;
 }
 
+.greymode {
+    background-color: grey;
+    color: white;
+}
+
+.darkmode {
+    background-color: black;
+    color: white;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.version {
+    text-align: left;
+    font-size: .8em;
+}
+
 .button {
   margin: 3% auto;
   padding: 4px;
@@ -14,12 +34,20 @@ html, body {
   cursor: pointer;
 }
 
-.status:hover {
-  background-color: #CFF2F2;
+.available:hover {
+    background-color: #8bc65a;
 }
 
-.status {
-  background-color: #E5F2F2;
+.available {
+    background-color: #45c65a;
+}
+
+.backlog:hover {
+    background-color: #fec839;
+}
+
+.backlog {
+    background-color: #fe9339;
 }
 
 .disable {
