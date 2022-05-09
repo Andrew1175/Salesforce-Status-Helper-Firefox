@@ -12,8 +12,13 @@
 	var evt;
 	var str;
 	var backlogstatus;
-	var canceled;
-
+	var availableStatus;
+	var statusBar;
+	var dropDown;
+	var clickBacklog;
+	var clickAvailable;
+	var clickstatusBar;
+	var clickdropDown;
   
 	function changeToBacklog() {
 		try {
@@ -32,8 +37,15 @@
 			evt.initMouseEvent("click", true, true, window,
 				0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			str = document.getElementsByClassName("slds-dropdown__item awayStatus")[0];
-			backlogstatus = str.getElementsByTagName("a")[0];
-			canceled = !backlogstatus.dispatchEvent(evt);
+			try {
+				backlogstatus = str.getElementsByTagName("a")[0];
+			} catch {
+				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[6];
+				clickdropDown = !dropDown.dispatchEvent(evt);
+				alert("Omni-Channel error detected. Please try setting your status again.")
+				backlogstatus = str.getElementsByTagName("a")[0];
+			}
+			clickBacklog = !backlogstatus.dispatchEvent(evt);
 			browser.runtime.sendMessage({
 				command: "backlogNotification"
 			});
@@ -62,8 +74,15 @@
 			evt.initMouseEvent("click", true, true, window,
 				0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			str = document.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
-			backlogstatus = str.getElementsByTagName("a")[0];
-			canceled = !backlogstatus.dispatchEvent(evt);
+			try {
+				availableStatus = str.getElementsByTagName("a")[0];
+			} catch {
+				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[6];
+				clickdropDown = !dropDown.dispatchEvent(evt);
+				alert("Omni-Channel error detected. Please try setting your status again.")
+				availableStatus = str.getElementsByTagName("a")[0];
+            }
+			clickAvailable = !availableStatus.dispatchEvent(evt);
 			browser.runtime.sendMessage({
 				command: "availableNotification"
 			});
