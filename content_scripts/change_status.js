@@ -103,6 +103,8 @@
 		if (message.command === "Backlog") {
 			clearInterval(availableInterval);
 			availableInterval = null
+			clearInterval(backlogInterval);
+			backlogInterval = null
 			changeToBacklog()
 			backlogInterval = setInterval(changeToBacklog, 15000);
 			alert("You have set your Omni-Channel status to Backlog")
@@ -110,6 +112,8 @@
 		else if (message.command === "Available") {
 			clearInterval(backlogInterval);
 			backlogInterval = null
+			clearInterval(availableInterval);
+			availableInterval = null
 			changeToAvailable()
 			availableInterval = setInterval(changeToAvailable, 15000);
 			alert("You have set your Omni-Channel status to Available")
