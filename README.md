@@ -2,6 +2,8 @@ Salesforce Status Helper created by Drew Rutherford
 
 Available on Firefox: https://addons.mozilla.org/en-US/firefox/addon/salesforce-status-helper
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Description:
 
 Click your preferred Omni-Channel status. The chosen status will remain active until disabled. This is useful for when Omni-Channel disconnects you unexpectedly and without warning.
@@ -12,10 +14,14 @@ If the extension detects that you're 'On a Web Case' it will NOT change your sta
 
 NOTE: This will ONLY work in *.salesforce.com or *.force.com domains. If you try to set your status in another tab without these domains nothing will happen.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Troubleshooting:
 
 If you open Web Developer Tools by either pressing 'F12' or by going into Settings > More Tools > Web Developer Tools you will see console logs every 15 seconds indicating status health checks occurring.
 NOTE: You will only see these health check messages if you have Available or Backlog enabled.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Features to come... maybe:
 
