@@ -19,6 +19,7 @@ NOTE: This will ONLY work in *.salesforce.com or *.force.com domains. If you try
 Troubleshooting:
 
 If you open Web Developer Tools by either pressing 'F12' or by going into Settings > More Tools > Web Developer Tools you will see console logs every 15 seconds indicating status health checks occurring.
+
 NOTE: You will only see these health check messages if you have Available or Backlog enabled.
 
 -----------------------------------------------------------------------------------------------------
