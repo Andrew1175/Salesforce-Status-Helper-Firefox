@@ -2,6 +2,10 @@ html, body {
   width: 200px;
 }
 
+cursor {
+    color: transparent;
+}
+
 .hidden {
   display: none;
 }
@@ -57,4 +61,22 @@ html, body {
 .disable:hover {
     background-color: #ff9999;
 
+}
+
+label {
+    font-size: 1.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+select {
+    font-size: 1em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
 }

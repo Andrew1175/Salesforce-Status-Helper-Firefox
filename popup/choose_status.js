@@ -47,17 +47,44 @@ function listenForClicks() {
 		}
 
 		if (e.target.classList.contains("available")) {
-			browser.tabs.query({})
+			var selectedsite = document.querySelector("#salesforcesite").value;
+			if (selectedsite == "government") {
+				selectedsite = "*://zscalergov.lightning.force.com/*"
+			}
+			else {
+				selectedsite = "*://zscaler.lightning.force.com/*"
+			}
+			browser.tabs.query({
+				url: selectedsite
+			})
 				.then(pushStatus)
 				.catch(reportError);
 		}
 		else if (e.target.classList.contains("backlog")) {
-			browser.tabs.query({})
+			var selectedsite = document.querySelector("#salesforcesite").value;
+			if (selectedsite == "government") {
+				selectedsite = "*://zscalergov.lightning.force.com/*";
+			}
+			else {
+				selectedsite = "*://zscaler.lightning.force.com/*";
+			}
+			browser.tabs.query({
+				url: selectedsite
+			})
 				.then(pushStatus)
 				.catch(reportError);
 		}
 		else if (e.target.classList.contains("disable")) {
-			browser.tabs.query({})
+			var selectedsite = document.querySelector("#salesforcesite").value;
+			if (selectedsite == "government") {
+				selectedsite = "*://zscalergov.lightning.force.com/*";
+			}
+			else {
+				selectedsite = "*://zscaler.lightning.force.com/*";
+			}
+			browser.tabs.query({
+				url: selectedsite
+			})
 				.then(disableHelper)
 				.catch(reportError);
 		}
