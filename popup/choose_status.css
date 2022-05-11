@@ -1,9 +1,6 @@
-html, body {
+body {
   width: 200px;
-}
-
-cursor {
-    color: transparent;
+  cursor: default;
 }
 
 .hidden {

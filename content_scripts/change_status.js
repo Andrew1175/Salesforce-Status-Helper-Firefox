@@ -42,9 +42,9 @@
 					command: "backlogNotification"
 				});
 			} catch {
-				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[6];
+				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
 				clickdropDown = !dropDown.dispatchEvent(evt);
-				alert("Omni-Channel error detected. Please try setting your status again.");
+				alert("Omni-Channel error detected. Please wait a moment while Status Helper attempts to change your status.");
 			}
 		}
 	}
@@ -78,9 +78,9 @@
 					command: "availableNotification"
 				});
 			} catch {
-				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[6];
+				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
 				clickdropDown = !dropDown.dispatchEvent(evt);
-				alert("Omni-Channel error detected. Please try setting your status again.");
+				alert("Omni-Channel error detected. Please wait a moment while Status Helper attempts to change your status.");
             }
 		}
 	}
