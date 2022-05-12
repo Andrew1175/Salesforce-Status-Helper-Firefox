@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Salesforce Status Helper",
-  "version": "1.7.5",
+  "version": "1.7.6",
 
   "description": "Click your preferred Omni-Channel status. The chosen status will remain active until disabled. This is useful for when Omni-Channel disconnects you unexpectedly and without warning.",
   "homepage_url": "https://github.com/Andrew1175/Salesforce-Status-Helper",

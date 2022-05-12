@@ -18,8 +18,8 @@
 	var clickBacklog;
 	var clickAvailable;
 	var clickdropDown;
-	var omniAction
-	var omniTab
+	var omniAction;
+	var omniTab;
 	var refreshButton;
 	var clickRefresh;
   

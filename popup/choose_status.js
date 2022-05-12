@@ -1,6 +1,7 @@
 var disableNotification = "disable-notification"
 var backlogNotification = "backlog-notification"
 var availableNotification = "available-notification"
+var selectedsite;
 
 
 function listenForClicks() {
@@ -47,7 +48,7 @@ function listenForClicks() {
 		}
 
 		if (e.target.classList.contains("available")) {
-			var selectedsite = document.querySelector("#salesforcesite").value;
+			selectedsite = document.querySelector("#salesforcesite").value;
 			if (selectedsite == "government") {
 				selectedsite = "*://zscalergov.lightning.force.com/*"
 			}
@@ -61,7 +62,7 @@ function listenForClicks() {
 				.catch(reportError);
 		}
 		else if (e.target.classList.contains("backlog")) {
-			var selectedsite = document.querySelector("#salesforcesite").value;
+			selectedsite = document.querySelector("#salesforcesite").value;
 			if (selectedsite == "government") {
 				selectedsite = "*://zscalergov.lightning.force.com/*";
 			}
@@ -75,7 +76,7 @@ function listenForClicks() {
 				.catch(reportError);
 		}
 		else if (e.target.classList.contains("disable")) {
-			var selectedsite = document.querySelector("#salesforcesite").value;
+			selectedsite = document.querySelector("#salesforcesite").value;
 			if (selectedsite == "government") {
 				selectedsite = "*://zscalergov.lightning.force.com/*";
 			}
