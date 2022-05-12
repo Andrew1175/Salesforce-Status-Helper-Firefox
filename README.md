@@ -12,7 +12,11 @@ Every 15 seconds the extension will verify that you're still logged in with the 
 
 If the extension detects that you're 'On a Web Case' it will NOT change your status. You will have to manually change out of it first.
 
-NOTE: This will ONLY work in *.salesforce.com or *.force.com domains. If you try to set your status in another tab without these domains nothing will happen.
+Every 60 seconds the extension will refresh Omni Supervisor to be sure the connection is in a healthy state.
+
+NOTES:
+- This will ONLY work in .salesforce.com or .force.com domains. If you try to set your status in another tab without these domains nothing will happen.
+- If you don't have Omni Supervisor open in a Salesforce tab then an error will display in the console. More importantly you can enter in an error state that the extension can't detect.
 
 -----------------------------------------------------------------------------------------------------
 
