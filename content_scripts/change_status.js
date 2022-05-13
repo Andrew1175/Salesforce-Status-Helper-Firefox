@@ -19,14 +19,16 @@
 	var clickAvailable;
 	var clickdropDown;
 	var omniAction;
-	var omniTab;
 	var refreshButton;
 	var clickRefresh;
+	var omniDropDown;
+	var clickomniDropDown;
   
 	function changeToBacklog() {
 		try {
 			awaystatus = document.getElementsByClassName("awayStatus truncatedText uiOutputText")[0].innerHTML;
-		} catch {
+		}
+		catch {
 			awaystatus = "placeholder";
         }
 		if (awaystatus.includes("Backlog")) {
@@ -57,12 +59,14 @@
 	function changeToAvailable() {
 		try {
 			onlinestatus = document.getElementsByClassName("onlineStatus truncatedText uiOutputText")[0].innerHTML;
-		} catch {
+		}
+		catch {
 			onlinestatus = "placeholder";
 		}
 		try {
 			awaystatus = document.getElementsByClassName("awayStatus truncatedText uiOutputText")[0].innerHTML;
-		} catch {
+		}
+		catch {
 			awaystatus = "placeholder";
         }
 		if (onlinestatus.includes("Available")) {
@@ -104,20 +108,24 @@
 
 	
 	function refreshOmni() {
+		evt = document.createEvent("MouseEvents");
+		evt.initMouseEvent("click", true, true, window,
+			0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		omniAction = document.querySelector("[title='Actions for Omni Supervisor']");
 		try {
-			evt = document.createEvent("MouseEvents");
-			evt.initMouseEvent("click", true, true, window,
-				0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			omniAction = document.querySelector("[title='Actions for Omni Supervisor']");
-			omniTab = omniAction.getElementsByClassName("slds-dropdown__item refreshTab")[0];
-			refreshButton = omniTab.getElementsByClassName("slds-truncate")[0];
+			refreshButton = omniAction.getElementsByClassName("slds-truncate")[0];
 			clickRefresh = !refreshButton.dispatchEvent(evt);
-			console.log("Omni Supervisor was successfully refreshed.")
+			console.log("Omni Supervisor was successfully refreshed.");
 		}
 		catch (error) {
-			console.log("Omni Supervisor ws not detected in any Salesforce tab. Reference the following error:")
+			console.log("Omni Supervisor was not detected. Reference the following error:")
 			console.log(error)
-        }
+			console.log("Attempting to correct")
+			omniDropDown = omniAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+			clickomniDropDown = !omniDropDown.dispatchEvent(evt);
+			clickomniDropDown = !omniDropDown.dispatchEvent(evt);
+			console.log("Error corrected. Omni Supervisor will refresh on the next interval.");
+		}
 	}
 		
 	browser.runtime.onMessage.addListener((message) => {
@@ -131,7 +139,7 @@
 			changeToBacklog()
 			backlogInterval = setInterval(changeToBacklog, 15000);
 			refreshInterval = setInterval(refreshOmni, 60000);
-			alert("You have set your Omni-Channel status to Backlog")
+			alert("You have set your Omni-Channel status to Backlog");
 		}
 		else if (message.command === "Available") {
 			clearInterval(backlogInterval);
@@ -143,11 +151,11 @@
 			changeToAvailable()
 			availableInterval = setInterval(changeToAvailable, 15000);
 			refreshInterval = setInterval(refreshOmni, 60000);
-			alert("You have set your Omni-Channel status to Available")
+			alert("You have set your Omni-Channel status to Available");
 		}
 		else if (message.command === "Disable") {
 			disableHelper();
-			alert("You have disabled Salesforce Status Helper")
+			alert("You have disabled Salesforce Status Helper");
 		}
 	});
 						
