@@ -111,20 +111,29 @@
 		evt = document.createEvent("MouseEvents");
 		evt.initMouseEvent("click", true, true, window,
 			0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		omniAction = document.querySelector("[title='Actions for Omni Supervisor']");
 		try {
+			omniAction = document.querySelector("[title='Actions for Omni Supervisor']");
 			refreshButton = omniAction.getElementsByClassName("slds-truncate")[0];
 			clickRefresh = !refreshButton.dispatchEvent(evt);
 			console.log("Omni Supervisor was successfully refreshed.");
 		}
 		catch (error) {
-			console.log("Omni Supervisor was not detected. Reference the following error:")
-			console.log(error)
-			console.log("Attempting to correct")
-			omniDropDown = omniAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-			clickomniDropDown = !omniDropDown.dispatchEvent(evt);
-			clickomniDropDown = !omniDropDown.dispatchEvent(evt);
-			console.log("Error corrected. Omni Supervisor will refresh on the next interval.");
+			console.log("Omni Supervisor was not detected. Reference the following error:");
+			console.log(error);
+			console.log("Attempting to correct...");
+			try {
+				omniAction = document.querySelector("[title='Actions for Omni Supervisor']");
+				omniDropDown = omniAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+				clickomniDropDown = !omniDropDown.dispatchEvent(evt);
+				clickomniDropDown = !omniDropDown.dispatchEvent(evt);
+				console.log("Error corrected. Omni Supervisor will refresh on the next interval.");
+
+			}
+			catch (error2) {
+				console.log("Could not correct error. Reference the following:");
+				console.log(error2);
+				cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
+            }
 		}
 	}
 		
