@@ -48,10 +48,23 @@
 				browser.runtime.sendMessage({
 					command: "backlogNotification"
 				});
-			} catch {
-				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
-				clickdropDown = !dropDown.dispatchEvent(evt);
-				alert("Omni-Channel error detected. Please wait a moment while Status Helper attempts to change your status.");
+			}
+			catch (error) {
+				console.log("Unable to set status to Backlog. Reason:");
+				console.log(error);
+				console.log("Attempting to fix...");
+				alert("Omni-Channel error detected. Please check console for the detailed error");
+				try {
+					dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
+					clickdropDown = !dropDown.dispatchEvent(evt);
+					clickdropDown = !dropDown.dispatchEvent(evt);
+					console.log("Omni-Channel has been fixed. Status will change to Backlog at the next health check.");
+				}
+				catch (error) {
+					console.log("Unable to fix Omni-Channel. Reason:");
+					console.log(error);
+					console.log("Please manually set your status to fix the issue");
+                }
 			}
 		}
 	}
@@ -86,11 +99,24 @@
 				browser.runtime.sendMessage({
 					command: "availableNotification"
 				});
-			} catch {
-				dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
-				clickdropDown = !dropDown.dispatchEvent(evt);
-				alert("Omni-Channel error detected. Please wait a moment while Status Helper attempts to change your status.");
-            }
+			}
+			catch (error) {
+				console.log("Unable to set status to Available. Reason:");
+				console.log(error);
+				console.log("Attempting to fix...");
+				alert("Omni-Channel error detected. Please check console for the detailed error");
+				try {
+					dropDown = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
+					clickdropDown = !dropDown.dispatchEvent(evt);
+					clickdropDown = !dropDown.dispatchEvent(evt);
+					console.log("Omni-Channel has been fixed. Status will change to Available at the next health check.");
+				}
+				catch (error) {
+					console.log("Unable to fix Omni-Channel. Reason:");
+					console.log(error);
+					console.log("Please manually set your status to fix the issue");
+				}
+			}
 		}
 	}
 		
@@ -139,6 +165,7 @@
 		
 	browser.runtime.onMessage.addListener((message) => {
 		if (message.command === "Backlog") {
+			alert("You have set your Omni-Channel status to Backlog");
 			clearInterval(availableInterval);
 			availableInterval = null
 			clearInterval(backlogInterval);
@@ -148,9 +175,9 @@
 			changeToBacklog()
 			backlogInterval = setInterval(changeToBacklog, 15000);
 			refreshInterval = setInterval(refreshOmni, 60000);
-			alert("You have set your Omni-Channel status to Backlog");
 		}
 		else if (message.command === "Available") {
+			alert("You have set your Omni-Channel status to Available");
 			clearInterval(backlogInterval);
 			backlogInterval = null
 			clearInterval(availableInterval);
@@ -160,11 +187,10 @@
 			changeToAvailable()
 			availableInterval = setInterval(changeToAvailable, 15000);
 			refreshInterval = setInterval(refreshOmni, 60000);
-			alert("You have set your Omni-Channel status to Available");
 		}
 		else if (message.command === "Disable") {
-			disableHelper();
 			alert("You have disabled Salesforce Status Helper");
+			disableHelper();
 		}
 	});
 						
