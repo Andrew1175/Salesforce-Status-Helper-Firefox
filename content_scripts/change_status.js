@@ -8,30 +8,33 @@
 	var backlogInterval;
 	var availableInterval;
 	var refreshInterval;
-	var onlinestatus;
-	var awaystatus;
-	var str;
-	var OmniChannelElement;
-	var StatusDropdownButton;
+	var OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
+	var CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
+	var StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+	StatusDropdownButton.click();
+	StatusDropdownButton.click();
+	var BacklogDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item awayStatus")[0];
+	var BacklogStatusButton = BacklogDropdownElement.getElementsByTagName("a")[0];
+	var AvailableDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
+	var AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
 	var OmniSuperAction;
   
 	function changeToBacklog() {
 		try {
-			awaystatus = document.getElementsByClassName("awayStatus truncatedText uiOutputText")[0].innerHTML;
+			CurrentStatus;
 		}
 		catch {
-			awaystatus = "placeholder";
+			CurrentStatus = "placeholder";
         }
-		if (awaystatus.includes("Backlog")) {
+		if (CurrentStatus.includes("Backlog")) {
 			console.log("Your status is already set to Backlog. Nothing else to do here.");
 		}
-		else if (awaystatus.includes("Web Case")) {
+		else if (CurrentStatus.includes("Web Case")) {
 			console.log("You're currently on a case. Nothing else to do here.");
 		}
 		else {
 			try {
-				str = document.getElementsByClassName("slds-dropdown__item awayStatus")[0];
-				var backlogstatus = str.getElementsByTagName("a")[0].click();
+				BacklogStatusButton.click();
 				browser.runtime.sendMessage({
 					command: "backlogNotification"
 				});
@@ -41,8 +44,6 @@
 				console.log("Unable to set status to Backlog due to:", error);
 				console.log("Attempting to fix...");
 				try {
-					OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
-					StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
 					StatusDropdownButton.click();
 					StatusDropdownButton.click();
 					console.log("Omni-Channel has been fixed. Status will change to Backlog at the next health check.");
@@ -57,39 +58,29 @@
 
 	function changeToAvailable() {
 		try {
-			onlinestatus = document.getElementsByClassName("onlineStatus truncatedText uiOutputText")[0].innerHTML;
+			CurrentStatus;
 		}
 		catch {
-			onlinestatus = "placeholder";
+			CurrentStatus = "placeholder";
 		}
-		try {
-			awaystatus = document.getElementsByClassName("awayStatus truncatedText uiOutputText")[0].innerHTML;
-		}
-		catch (error){
-			awaystatus = "placeholder";
-        }
-		if (onlinestatus.includes("Available")) {
+		if (CurrentStatus.includes("Available")) {
 			console.log("Your status is already set to Available. Nothing else to do here.");
 		}
-		else if (awaystatus.includes("Web Case")) {
+		else if (CurrentStatus.includes("Web Case")) {
 			console.log("You're currently on a case. Nothing else to do here.");
 		}
 		else {
 			try {
-				str = document.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
-				var availableStatus = str.getElementsByTagName("a")[0].click();
+				AvailableStatusButton.click();
 				browser.runtime.sendMessage({
 					command: "availableNotification"
 				});
 			}
 			catch (error) {
-				console.log("Unable to set status to Available. Reason:");
-				console.log(error);
-				console.log("Attempting to fix...");
 				alert("Omni-Channel error detected. Please check console for the detailed error");
+				console.log("Unable to set status to Available due to:", error);
+				console.log("Attempting to fix...");
 				try {
-					OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
-					StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
 					StatusDropdownButton.click();
 					StatusDropdownButton.click();
 					console.log("Omni-Channel has been fixed. Status will change to Available at the next health check.");
@@ -122,8 +113,7 @@
 			console.log("Omni Supervisor was successfully refreshed.");
 		}
 		catch (error) {
-			console.log("Omni Supervisor was not detected. Reference the following error:");
-			console.log(error);
+			console.log("Omni Supervisor was not detected due to", error);
 			console.log("Attempting to correct...");
 			try {
 				OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");

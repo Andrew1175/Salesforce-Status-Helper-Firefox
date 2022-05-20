@@ -100,6 +100,7 @@ browser.runtime.onMessage.addListener((message) => {
 	if (message.command === "disableNotification") {
 		browser.notifications.create(disableNotification,{
 			type: "basic",
+			iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
 			title: "Salesforce Status Helper",
 			message: "Status Helper has been disabled"
 		});
@@ -107,6 +108,7 @@ browser.runtime.onMessage.addListener((message) => {
 	else if (message.command === "backlogNotification") {
 		browser.notifications.create(backlogNotification,{
 			type: "basic",
+			iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
 			title: "Salesforce Status Helper",
 			message: "Your status has been updated to: Backlog"
 		});
@@ -114,6 +116,7 @@ browser.runtime.onMessage.addListener((message) => {
 	else if (message.command === "availableNotification") {
 		browser.notifications.create(availableNotification,{
 			type: "basic",
+			iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
 			title: "Salesforce Status Helper",
 			message: "Your status has been updated to: Available"
 		});
