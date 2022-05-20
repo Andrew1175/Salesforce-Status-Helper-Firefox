@@ -11,6 +11,7 @@
 	var onlinestatus;
 	var awaystatus;
 	var str;
+	var OmniChannelElement;
 	var StatusDropdownButton;
 	var OmniSuperAction;
   
@@ -40,7 +41,8 @@
 				console.log("Unable to set status to Backlog due to:", error);
 				console.log("Attempting to fix...");
 				try {
-					StatusDropdownButton = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
+					OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
+					StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
 					StatusDropdownButton.click();
 					StatusDropdownButton.click();
 					console.log("Omni-Channel has been fixed. Status will change to Backlog at the next health check.");
@@ -86,7 +88,8 @@
 				console.log("Attempting to fix...");
 				alert("Omni-Channel error detected. Please check console for the detailed error");
 				try {
-					StatusDropdownButton = document.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[4];
+					OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
+					StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
 					StatusDropdownButton.click();
 					StatusDropdownButton.click();
 					console.log("Omni-Channel has been fixed. Status will change to Available at the next health check.");
