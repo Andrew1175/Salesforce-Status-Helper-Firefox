@@ -28,8 +28,8 @@
 			console.log("You're currently on a case. Nothing else to do here.");
 		}
 		else {
-			str = document.getElementsByClassName("slds-dropdown__item awayStatus")[0];
 			try {
+				str = document.getElementsByClassName("slds-dropdown__item awayStatus")[0];
 				var backlogstatus = str.getElementsByTagName("a")[0].click();
 				browser.runtime.sendMessage({
 					command: "backlogNotification"
@@ -73,8 +73,8 @@
 			console.log("You're currently on a case. Nothing else to do here.");
 		}
 		else {
-			str = document.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
 			try {
+				str = document.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
 				var availableStatus = str.getElementsByTagName("a")[0].click();
 				browser.runtime.sendMessage({
 					command: "availableNotification"
