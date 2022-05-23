@@ -21,7 +21,7 @@
   
 	function changeToBacklog() {
 		try {
-			CurrentStatus;
+			CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
 		}
 		catch {
 			CurrentStatus = "placeholder";
@@ -58,7 +58,7 @@
 
 	function changeToAvailable() {
 		try {
-			CurrentStatus;
+			CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
 		}
 		catch {
 			CurrentStatus = "placeholder";
