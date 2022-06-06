@@ -1,10 +1,10 @@
 body {
-  width: 200px;
-  cursor: default;
+    width: 200px;
+    cursor: default;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .greymode {
@@ -28,43 +28,41 @@ body {
 }
 
 .button {
-  margin: 3% auto;
-  padding: 4px;
-  text-align: center;
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.available:hover {
-    background-color: #8bc65a;
+    margin: 3% auto;
+    padding: 4px;
+    text-align: center;
+    font-size: 1.5em;
+    cursor: pointer;
 }
 
 .available {
     background-color: #45c65a;
 }
 
-.backlog:hover {
-    background-color: #fec839;
-}
+    .available:hover {
+        background-color: #8bc65a;
+    }
 
 .backlog {
     background-color: #fe9339;
 }
 
+    .backlog:hover {
+        background-color: #fec839;
+    }
+
 .disable {
-   background-color: #FF0000;
+    background-color: #FF0000;
 }
 
-.disable:hover {
-    background-color: #ff9999;
+    .disable:hover {
+        background-color: #ff9999;
+    }
 
-}
-
-label {
+.siteoptions_label {
     font-size: 1.5em;
     display: block;
     text-align: center;
-    vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
 }
@@ -76,4 +74,49 @@ select {
     vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
+}
+
+.queue_label {
+    font-size: 1.5em;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: black;
+}
+
+.checkbox_label {
+    font-size: 1em;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.saveButton {
+    font-size: 1em;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form {
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.ptable {
+    display: table-row;
+}
+
+.labeltable {
+    display: table-cell;
+}
+
+.inputtable {
+    display: table-cell;
 }

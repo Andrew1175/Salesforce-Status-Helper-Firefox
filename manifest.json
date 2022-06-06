@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Salesforce Status Helper",
-  "version": "2.2.2",
+  "version": "3.0",
 
   "description": "Salesforce Status Helper will help keep you logged into Omni-Channel for when those unexpected disconnects occur without warning.",
   "homepage_url": "https://github.com/Andrew1175/Salesforce-Status-Helper",
@@ -13,8 +13,16 @@
   "permissions": [
     "*://*.salesforce.com/*",
     "*://*.force.com/*",
+    "storage",
     "notifications"
   ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "SalesforceStatusHelper@drewruthgov.com",
+      "strict_min_version": "56.0"
+    }
+  },
 
   "browser_action": {
     "default_icon": "icons/zscaler-icon-48.jpg",

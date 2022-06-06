@@ -1,33 +1,86 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Salesforce Status Helper</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="choose_status.css"/>
+    <link rel="stylesheet" href="choose_status.css" />
 </head>
 
 <body class="greymode">
-    <div id="popup-content">
+    <div id="status-section">
         <div class="button available">Available</div>
         <div class="button backlog">Backlog</div>
         <div class="button disable">Disable</div>
-        <label for="salesforcesite">Salesforce Site:</label>
+    </div>
+    <div id="queue-section" hidden>
+        <label class="queue_label">Total Work Hours:</label>
+        <form>
+            <p class="ptable">
+                <label class="labeltable" for="startshift">Start of shift:</label>
+                <input class="inputtable" id="startshift" type="time">
+            </p>
+            <p class="ptable">
+                <label class="labeltable" for="endshift">End of shift:</label>
+                <input class="inputtable" id="endshift" type="time">
+            </p>
+        </form>
+        <label class="queue_label">First Shift Hours:</label>
+        <form>
+            <p class="ptable">
+                <label class="labeltable" for="firstshiftstart">Start:</label>
+                <input class="inputtable" id="firstshiftstart" type="time">
+            </p>
+            <p class="ptable">
+                <label class="labeltable" for="firstshiftend">End:</label>
+                <input class="inputtable" id="firstshiftend" type="time">
+            </p>
+        </form>
+        <label class="queue_label">Second Shift Hours:</label>
+        <form>
+            <p class="ptable">
+                <label class="labeltable" for="secondshiftstart">Start:</label>
+                <input class="inputtable" id="secondshiftstart" type="time">
+            </p>
+            <p class="ptable">
+                <label class="labeltable" for="secondshiftend">End:</label>
+                <input class="inputtable" id="secondshiftend" type="time">
+            </p>
+        </form>
+        <div class="checkbox_label">
+            <label>
+                Enable:
+                <input type="checkbox" id="enableQueue_checkbox">
+            </label>
+        </div>
+    </div>
+    <hr />
+    <div id="site-section">
+        <label class="siteoptions_label">Site Options:</label>
         <select id="salesforcesite">
             <option value="government">zscalergov</option>
             <option value="commercial">zscaler</option>
         </select>
+        <div class="checkbox_label">
+            <label>
+                Use Automated Queue:
+                <input type="checkbox" id="queuehours_checkbox">
+            </label>
+        </div>
+        <div style="text-align: center; color:aqua;" id="saveStatus"></div>
+        <button class="saveButton" id="saveSettingsButton">Apply Settings</button>
     </div>
+    <hr />
     <div id="error-content" class="hidden">
         <p>Salesforce isn't open in any tab.</p>
     </div>
     <script src="choose_status.js"></script>
-    <hr />
-    <div id="popup-information">
+    <div id="information-section">
         <p class="title">Salesforce Status Helper</p>
         <p class="version">
             <a href="https://github.com/Andrew1175/Salesforce-Status-Helper" target="_blank">
                 <img src="/icons/question.png" style="float:right;width:20px;height:20px;" />
-            </a>2.2.2
+            </a>3.0
         </p>
     </div>
 </body>
