@@ -180,7 +180,7 @@
             savedSecondShiftStart: "08:00 PM",
             savedSecondShiftEnd: "08:00 PM"
         }, function (items) {
-            var currentTime = new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', hour12: false });
+            var currentTime = new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
             if (items.savedFirstShiftStart <= currentTime && items.savedFirstShiftEnd >= currentTime) {
                 changeToAvailable();
             }
