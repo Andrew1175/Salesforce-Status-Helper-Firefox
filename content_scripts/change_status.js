@@ -181,13 +181,13 @@
             savedSecondShiftEnd: "08:00 PM"
         }, function (items) {
             var currentTime = new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', hour12: false });
-            if (items.savedFirstShiftStart < currentTime && items.savedFirstShiftEnd > currentTime) {
+            if (items.savedFirstShiftStart <= currentTime && items.savedFirstShiftEnd >= currentTime) {
                 changeToAvailable();
             }
-            else if (items.savedSecondShiftStart < currentTime && items.savedSecondShiftEnd > currentTime) {
+            else if (items.savedSecondShiftStart <= currentTime && items.savedSecondShiftEnd >= currentTime) {
                 changeToAvailable();
             }
-            else if (items.savedStartShift < currentTime && items.savedEndShift > currentTime) {
+            else if (items.savedStartShift <= currentTime && items.savedEndShift >= currentTime) {
                 changeToBacklog();
             }
             else {
