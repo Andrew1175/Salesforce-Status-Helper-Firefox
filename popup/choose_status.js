@@ -1,6 +1,7 @@
 var disableNotification = "disable-notification"
 var backlogNotification = "backlog-notification"
 var availableNotification = "available-notification"
+var offlineNotification = "offline-notification"
 var selectedsite;
 
 function listenForClicks() {
@@ -240,10 +241,14 @@ browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
     .then(listenForClicks)
 
 browser.runtime.onMessage.addListener((message) => {
+    browser.notifications.clear(disableNotification);
+    browser.notifications.clear(backlogNotification);
+    browser.notifications.clear(availableNotification);
+    browser.notifications.clear(offlineNotification);
     if (message.command === "disableNotification") {
         browser.notifications.create(disableNotification, {
             type: "basic",
-            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
             message: "Status Helper has been disabled"
         });
@@ -251,7 +256,7 @@ browser.runtime.onMessage.addListener((message) => {
     else if (message.command === "backlogNotification") {
         browser.notifications.create(backlogNotification, {
             type: "basic",
-            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
             message: "Your status has been updated to: Backlog"
         });
@@ -259,15 +264,15 @@ browser.runtime.onMessage.addListener((message) => {
     else if (message.command === "availableNotification") {
         browser.notifications.create(availableNotification, {
             type: "basic",
-            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
             message: "Your status has been updated to: Available"
         });
     }
     else if (message.command === "offlineNotification") {
-        browser.notifications.create(availableNotification, {
+        browser.notifications.create(offlineNotification, {
             type: "basic",
-            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.jpg"),
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
             message: "Your status has been updated to: Offline"
         });
