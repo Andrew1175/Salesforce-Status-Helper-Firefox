@@ -20,6 +20,10 @@
     var AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
     var OfflineDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item offlineStatus")[0];
     var OfflineStatusButton = OfflineDropdownElement.getElementsByTagName("a")[0];
+    try {
+        var toastManager = document.getElementsByClassName("forceToastManager--default forceToastManager navexDesktopLayoutContainer lafAppLayoutHost forceAccess forceStyle oneOne")[0];
+        toastManager.remove();
+    } catch { null }
     var OmniSuperAction;
 
     function changeToBacklog() {
@@ -149,25 +153,35 @@
 
     function refreshOmni() {
         try {
-            OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
-            var OmniSuperRefreshButton = OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
-            console.log("Omni Supervisor was successfully refreshed.");
+            var caseSection = document.getElementsByClassName("MEDIUM uiTabset--base uiTabset--task uiTabset oneActionsComposer forceActionsContainer")[0];
+            var caseOpen = caseSection.getElementsByClassName("tabs__content active uiTab")[0];
+        } catch {
+            caseOpen = "undefined";
         }
-        catch (error) {
-            console.log("Omni Supervisor was not detected due to", error);
-            console.log("Attempting to correct...");
+        if (caseOpen === "undefined" || caseOpen.clientWidth === 0) {
             try {
                 OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
-                var OmniSuperDropdownButton = OmniSuperAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-                OmniSuperDropdownButton.click();
-                OmniSuperDropdownButton.click();
-                console.log("Error corrected. Omni Supervisor will refresh on the next interval.");
-
+                var OmniSuperRefreshButton = OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
             }
             catch (error) {
-                console.log("Could not correct error due to:", error);
-                cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
+                console.log("Omni Supervisor was not detected due to", error);
+                console.log("Attempting to correct...");
+                try {
+                    OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
+                    var OmniSuperDropdownButton = OmniSuperAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+                    OmniSuperDropdownButton.click();
+                    OmniSuperDropdownButton.click();
+                    console.log("Error corrected.");
+
+                }
+                catch (error) {
+                    console.log("Could not correct error due to:", error);
+                    cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
+                }
             }
+        }
+        else {
+            null;
         }
     }
 
@@ -199,7 +213,7 @@
 
     browser.runtime.onMessage.addListener((message) => {
         if (message.command === "Backlog") {
-            alert("You have set your Omni-Channel status to Backlog");
+            console.log("You have set your Omni-Channel status to Backlog");
             clearInterval(availableInterval);
             availableInterval = null;
             clearInterval(backlogInterval);
@@ -213,7 +227,7 @@
             refreshInterval = setInterval(refreshOmni, 60000);
         }
         else if (message.command === "Available") {
-            alert("You have set your Omni-Channel status to Available");
+            console.log("You have set your Omni-Channel status to Available");
             clearInterval(backlogInterval);
             backlogInterval = null;
             clearInterval(availableInterval);
@@ -227,7 +241,7 @@
             refreshInterval = setInterval(refreshOmni, 60000);
         }
         else if (message.command === "Disable") {
-            alert("You have disabled Salesforce Status Helper");
+            console.log("You have disabled Salesforce Status Helper");
             disableHelper();
         }
         else if (message.command === "enableAutoQueue") {
