@@ -147,7 +147,10 @@
         refreshInterval = null;
         clearInterval(autoQueueInterval);
         autoQueueInterval = null;
-        console.log("Automated Queue has been disabled")
+        console.log("Automated Queue has been disabled");
+        browser.runtime.sendMessage({
+            command: "changeIconDefault"
+        });
     }
 
 
@@ -213,7 +216,6 @@
 
     browser.runtime.onMessage.addListener((message) => {
         if (message.command === "Backlog") {
-            console.log("You have set your Omni-Channel status to Backlog");
             clearInterval(availableInterval);
             availableInterval = null;
             clearInterval(backlogInterval);
@@ -225,9 +227,9 @@
             changeToBacklog();
             backlogInterval = setInterval(changeToBacklog, 15000);
             refreshInterval = setInterval(refreshOmni, 60000);
+            console.log("You have set your Omni-Channel status to Backlog");
         }
         else if (message.command === "Available") {
-            console.log("You have set your Omni-Channel status to Available");
             clearInterval(backlogInterval);
             backlogInterval = null;
             clearInterval(availableInterval);
@@ -239,24 +241,28 @@
             changeToAvailable();
             availableInterval = setInterval(changeToAvailable, 15000);
             refreshInterval = setInterval(refreshOmni, 60000);
+            console.log("You have set your Omni-Channel status to Available");
         }
         else if (message.command === "Disable") {
-            console.log("You have disabled Salesforce Status Helper");
             disableHelper();
+            console.log("You have disabled Salesforce Status Helper");
         }
         else if (message.command === "enableAutoQueue") {
             clearInterval(backlogInterval);
             backlogInterval = null;
             clearInterval(availableInterval);
             availableInterval = null;
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-            clearInterval(autoQueueInterval);
-            autoQueueInterval = null;
             autoQueueCheck();
-            autoQueueInterval = setInterval(autoQueueCheck, 15000);
-            refreshInterval = setInterval(refreshOmni, 60000);
-            console.log("Automated Queue has been enabled");
+            if (autoQueueInterval == null || autoQueueInterval == 'undefined') {
+                autoQueueInterval = setInterval(autoQueueCheck, 15000);
+                console.log("Automated Queue has been enabled");
+                browser.runtime.sendMessage({
+                    command: "changeIconEnable"
+                });
+            }
+            if (refreshInterval == null || refreshInterval == 'undefined') {
+                refreshInterval = setInterval(refreshOmni, 60000);
+            }
         }
         else if (message.command === "disableAutoQueue") {
             disableAutoQueue();

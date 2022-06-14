@@ -94,6 +94,7 @@ function listenForClicks() {
 
     document.getElementById("queuehours_checkbox").addEventListener('change', function () {
         let queueHoursCheckbox = document.getElementById("queuehours_checkbox");
+        var autoQueueBox = document.getElementById("enableQueue_checkbox");
         let statusSection = document.getElementById("status-section");
         let queueSection = document.getElementById("queue-section");
         if (queueHoursCheckbox.checked) {
@@ -103,6 +104,9 @@ function listenForClicks() {
         else {
             queueSection.setAttribute("hidden", "hidden");
             statusSection.removeAttribute("hidden");
+            if (autoQueueBox.checked) {
+                autoQueueBox.click();
+            }
         }
     });
 
@@ -230,6 +234,7 @@ function restore_options() {
         else {
             queueSection.setAttribute("hidden", "hidden");
             statusSection.removeAttribute("hidden");
+            document.getElementById("enableQueue_checkbox").checked = false;
         }
     });
 }
@@ -276,5 +281,11 @@ browser.runtime.onMessage.addListener((message) => {
             title: "Salesforce Status Helper",
             message: "Your status has been updated to: Offline"
         });
+    }
+    if (message.command === "changeIconEnable") {
+        browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24-running.png" });
+    }
+    else if (message.command === "changeIconDefault") {
+        browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24.png" });
     }
 });
