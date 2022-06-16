@@ -152,6 +152,7 @@
 
 
     function refreshOmni() {
+        errorCheck();
         try {
             var caseSection = document.getElementsByClassName("MEDIUM uiTabset--base uiTabset--task uiTabset oneActionsComposer forceActionsContainer")[0];
             var caseOpen = caseSection.getElementsByClassName("tabs__content active uiTab")[0];
@@ -209,6 +210,21 @@
                 disableAutoQueue();
             }
         });
+    }
+
+    function errorCheck() {
+        try {
+            var omniErrorBox = document.getElementsByClassName("message-box runtime_service_omnichannelMessage runtime_service_omnichannelOmniWidget")[0];
+            var omniErrorMessage = omniErrorBox.getElementsByClassName("slds-col slds-align-middle")[0].innerHTML;
+        } catch {
+            omniErrorMessage = "none";
+        }
+        if (omniErrorMessage == "none" || omniErrorMessage.indexOf("no active requests")) {
+            null;
+        }
+        else {
+            alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh Salesforce");
+        }
     }
 
     browser.runtime.onMessage.addListener((message) => {
