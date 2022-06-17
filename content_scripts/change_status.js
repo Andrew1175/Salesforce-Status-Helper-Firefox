@@ -219,7 +219,7 @@
         } catch {
             omniErrorMessage = "none";
         }
-        if (omniErrorMessage == "none" || omniErrorMessage.indexOf("no active requests")) {
+        if (omniErrorMessage == "none" || omniErrorMessage.includes("no active requests")) {
             null;
         }
         else {
