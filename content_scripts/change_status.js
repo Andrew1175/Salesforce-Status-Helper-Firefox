@@ -147,42 +147,51 @@
         refreshInterval = null;
         clearInterval(autoQueueInterval);
         autoQueueInterval = null;
-        console.log("Automated Queue has been disabled");
+        browser.runtime.sendMessage({
+            command: "autoQueueDisabled"
+        });
     }
 
-
-    function refreshOmni() {
+    function caseCheck() {
         errorCheck();
-        try {
-            var caseSection = document.getElementsByClassName("MEDIUM uiTabset--base uiTabset--task uiTabset oneActionsComposer forceActionsContainer")[0];
-            var caseOpen = caseSection.getElementsByClassName("tabs__content active uiTab")[0];
-        } catch {
-            caseOpen = "undefined";
-        }
-        if (caseOpen === "undefined" || caseOpen.clientWidth === 0) {
-            try {
-                OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
-                var OmniSuperRefreshButton = OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
-            }
-            catch (error) {
-                console.log("Omni Supervisor was not detected due to", error);
-                console.log("Attempting to correct...");
-                try {
-                    OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
-                    var OmniSuperDropdownButton = OmniSuperAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-                    OmniSuperDropdownButton.click();
-                    OmniSuperDropdownButton.click();
-                    console.log("Error corrected.");
-
-                }
-                catch (error) {
-                    console.log("Could not correct error due to:", error);
-                    cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
-                }
-            }
+        var tempArray = [];
+        var caseOpen = document.querySelectorAll("a.tabHeader.slds-context-bar__label-action:not([title='US TAC Dashboard'], [title='Omni Supervisor'])");
+        if (caseOpen.length == 0) {
+            refreshOmni();
         }
         else {
-            null;
+            for (let i = 0; i < caseOpen.length; i++) {
+                tempArray.push(caseOpen[i].ariaSelected.toString());
+            }
+            if (tempArray.includes('true')) {
+                null;
+            }
+            else {
+                refreshOmni();
+            }
+        }
+    }
+
+    function refreshOmni() {
+        try {
+            OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
+            var OmniSuperRefreshButton = OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
+        }
+        catch (error) {
+            console.log("Omni Supervisor was not detected due to", error);
+            console.log("Attempting to correct...");
+            try {
+                OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
+                var OmniSuperDropdownButton = OmniSuperAction.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+                OmniSuperDropdownButton.click();
+                OmniSuperDropdownButton.click();
+                console.log("Error corrected.");
+
+            }
+            catch (error) {
+                console.log("Could not correct error due to:", error);
+                cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
+            }
         }
     }
 
@@ -223,7 +232,7 @@
             null;
         }
         else {
-            alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh Salesforce");
+            alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh the page to correct this error.");
         }
     }
 
@@ -239,7 +248,7 @@
             autoQueueInterval = null;
             changeToBacklog();
             backlogInterval = setInterval(changeToBacklog, 15000);
-            refreshInterval = setInterval(refreshOmni, 60000);
+            refreshInterval = setInterval(caseCheck, 60000);
             console.log("You have set your Omni-Channel status to Backlog");
         }
         else if (message.command === "Available") {
@@ -253,12 +262,11 @@
             autoQueueInterval = null;
             changeToAvailable();
             availableInterval = setInterval(changeToAvailable, 15000);
-            refreshInterval = setInterval(refreshOmni, 60000);
+            refreshInterval = setInterval(caseCheck, 60000);
             console.log("You have set your Omni-Channel status to Available");
         }
         else if (message.command === "Disable") {
             disableHelper();
-            console.log("You have disabled Salesforce Status Helper");
         }
         else if (message.command === "enableAutoQueue") {
             clearInterval(backlogInterval);
@@ -268,13 +276,15 @@
             autoQueueCheck();
             if (autoQueueInterval == null || autoQueueInterval == 'undefined') {
                 autoQueueInterval = setInterval(autoQueueCheck, 15000);
-                console.log("Automated Queue has been enabled");
+                browser.runtime.sendMessage({
+                    command: "autoQueueEnabled"
+                });
                 browser.runtime.sendMessage({
                     command: "changeIconEnable"
                 });
             }
             if (refreshInterval == null || refreshInterval == 'undefined') {
-                refreshInterval = setInterval(refreshOmni, 60000);
+                refreshInterval = setInterval(caseCheck, 60000);
             }
         }
         else if (message.command === "disableAutoQueue") {

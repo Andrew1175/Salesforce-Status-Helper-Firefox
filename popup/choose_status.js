@@ -1,7 +1,9 @@
-var disableNotification = "disable-notification"
-var backlogNotification = "backlog-notification"
-var availableNotification = "available-notification"
-var offlineNotification = "offline-notification"
+var disableNotification = "disable-notification";
+var backlogNotification = "backlog-notification";
+var availableNotification = "available-notification";
+var offlineNotification = "offline-notification";
+var autoQueueEnabledNotification = "autoQueueEnabled-notification";
+var autoQueueDisabledNotification = "autoQueueDisabled-notification";
 var selectedsite;
 
 function listenForClicks() {
@@ -246,10 +248,6 @@ browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
     .then(listenForClicks)
 
 browser.runtime.onMessage.addListener((message) => {
-    browser.notifications.clear(disableNotification);
-    browser.notifications.clear(backlogNotification);
-    browser.notifications.clear(availableNotification);
-    browser.notifications.clear(offlineNotification);
     if (message.command === "disableNotification") {
         browser.notifications.create(disableNotification, {
             type: "basic",
@@ -280,6 +278,22 @@ browser.runtime.onMessage.addListener((message) => {
             iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
             message: "Your status has been updated to: Offline"
+        });
+    }
+    else if (message.command === "autoQueueEnabled") {
+        browser.notifications.create(autoQueueEnabledNotification, {
+            type: "basic",
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
+            title: "Salesforce Status Helper",
+            message: "Automated Queue has been enabled"
+        });
+    }
+    else if (message.command === "autoQueueDisabled") {
+        browser.notifications.create(autoQueueDisabledNotification, {
+            type: "basic",
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
+            title: "Salesforce Status Helper",
+            message: "Automated Queue has been disabled"
         });
     }
     if (message.command === "changeIconEnable") {
