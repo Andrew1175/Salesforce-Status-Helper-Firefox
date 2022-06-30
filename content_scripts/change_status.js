@@ -232,6 +232,21 @@
             null;
         }
         else {
+            setTimeout(errorCheckResolved, 30000);
+        }
+    }
+
+    function errorCheckResolved() {
+        try {
+            var omniErrorBox = document.getElementsByClassName("message-box runtime_service_omnichannelMessage runtime_service_omnichannelOmniWidget")[0];
+            var omniErrorMessage = omniErrorBox.getElementsByClassName("slds-col slds-align-middle")[0].innerHTML;
+        } catch {
+            omniErrorMessage = "none";
+        }
+        if (omniErrorMessage == "none" || omniErrorMessage.includes("no active requests")) {
+            null;
+        }
+        else {
             alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh the page to correct this error.");
         }
     }
