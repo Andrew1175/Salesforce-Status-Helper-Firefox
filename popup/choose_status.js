@@ -4,14 +4,12 @@ var availableNotification = "available-notification";
 var offlineNotification = "offline-notification";
 var autoQueueEnabledNotification = "autoQueueEnabled-notification";
 var autoQueueDisabledNotification = "autoQueueDisabled-notification";
+var omniErrorNotification = "omniError-notification";
 var selectedsite;
 
 function listenForClicks() {
     document.addEventListener("click", (e) => {
 
-        /**
-        * Replace Omni status with what's selected.
-        */
         function setStatus(statusName) {
             switch (statusName) {
                 case "Available":
@@ -241,12 +239,6 @@ function restore_options() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById("saveSettingsButton").addEventListener('click',
-    save_options);
-browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
-    .then(listenForClicks)
-
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "disableNotification") {
         browser.notifications.create(disableNotification, {
@@ -296,10 +288,49 @@ browser.runtime.onMessage.addListener((message) => {
             message: "Automated Queue has been disabled"
         });
     }
-    if (message.command === "changeIconEnable") {
+    if (message.command === "omniErrorState") {
+        browser.notifications.create(omniErrorNotification, {
+            type: "basic",
+            iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
+            title: "Salesforce Status Helper",
+            message: "Omni-Channel is in a error state. Refresh the page to correct this issue."
+        });
+        browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24-Error.png" });
+    }
+    else if (message.command === "changeIconEnable") {
         browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24-running.png" });
     }
     else if (message.command === "changeIconDefault") {
         browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24.png" });
     }
+});
+
+document.addEventListener('DOMContentLoaded', restore_options);
+document.getElementById("saveSettingsButton").addEventListener('click',
+    save_options);
+window.onload = () => {
+    browser.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+        var currTabURL = tabs[0].url;
+        if (currTabURL == undefined) {
+            currTabURL = "blank";
+        }
+        if (currTabURL.includes("zscalergov.lightning.force.com" || "zscaler.lightning.force.com")) {
+            browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
+                .then(listenForClicks)
+        }
+    });
+}
+browser.tabs.onUpdated.addListener(() => {
+    browser.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+        var currTabURL = tabs[0].url;
+        if (currTabURL == undefined) {
+            currTabURL = "blank";
+        }
+        if (currTabURL.includes("zscalergov.lightning.force.com" || "zscaler.lightning.force.com")) {
+            setTimeout(() => {
+                browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
+                    .then(listenForClicks)
+            }, 5000);
+        }
+    });
 });

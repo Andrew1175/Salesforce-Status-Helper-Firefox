@@ -34,10 +34,10 @@
             CurrentStatus = "placeholder";
         }
         if (CurrentStatus.includes("Backlog")) {
-            console.log("Your status is already set to Backlog. Nothing else to do here.");
+            null;
         }
         else if (CurrentStatus.includes("Web Case")) {
-            console.log("You're currently on a case. Nothing else to do here.");
+            null;
         }
         else {
             try {
@@ -71,10 +71,10 @@
             CurrentStatus = "placeholder";
         }
         if (CurrentStatus.includes("Available")) {
-            console.log("Your status is already set to Available. Nothing else to do here.");
+            null;
         }
         else if (CurrentStatus.includes("Web Case")) {
-            console.log("You're currently on a case. Nothing else to do here.");
+            null;
         }
         else {
             try {
@@ -247,6 +247,10 @@
             null;
         }
         else {
+            browser.runtime.sendMessage({
+                command: "omniErrorState"
+            });
+            console.log("Salesforce Status Helper could not correct a critical error with Omni-Channel. Refresh the page to correct this error.");
             alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh the page to correct this error.");
         }
     }
@@ -309,5 +313,11 @@
             });
         }
     });
+
+    if (autoQueueInterval == null || autoQueueInterval == "undefined") {
+        browser.runtime.sendMessage({
+            command: "changeIconDefault"
+        });
+    }
 
 })();
