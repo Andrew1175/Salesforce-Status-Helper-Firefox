@@ -315,8 +315,13 @@ window.onload = () => {
             currTabURL = "blank";
         }
         if (currTabURL.includes("zscalergov.lightning.force.com" || "zscaler.lightning.force.com")) {
-            browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
-                .then(listenForClicks)
+            browser.tabs.executeScript({ file: "/content_scripts/change_status.js" });
+            browser.runtime.onMessage.addListener((message) => {
+                if (message.command === "allVariablesLoaded") {
+                    listenForClicks();
+                }
+            });
+
         }
     });
 }
@@ -327,10 +332,13 @@ browser.tabs.onUpdated.addListener(() => {
             currTabURL = "blank";
         }
         if (currTabURL.includes("zscalergov.lightning.force.com" || "zscaler.lightning.force.com")) {
-            setTimeout(() => {
-                browser.tabs.executeScript({ file: "/content_scripts/change_status.js" })
-                    .then(listenForClicks)
-            }, 5000);
+            browser.tabs.executeScript({ file: "/content_scripts/change_status.js" });
+            browser.runtime.onMessage.addListener((message) => {
+                if (message.command === "allVariablesLoaded") {
+                    listenForClicks();
+                }
+            });
+
         }
     });
 });

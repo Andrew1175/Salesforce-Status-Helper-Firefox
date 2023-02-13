@@ -9,26 +9,43 @@
     var availableInterval;
     var refreshInterval;
     var autoQueueInterval;
-    var OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus runtime_service_omnichannelOmniWidget")[0];
-    var CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
-    var StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-    StatusDropdownButton.click();
-    StatusDropdownButton.click();
-    var BacklogDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item awayStatus")[0];
-    var BacklogStatusButton = BacklogDropdownElement.getElementsByTagName("a")[0];
-    var AvailableDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
-    var AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
-    var OfflineDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item offlineStatus")[0];
-    var OfflineStatusButton = OfflineDropdownElement.getElementsByTagName("a")[0];
-    try {
-        var toastManager = document.getElementsByClassName("forceToastManager--default forceToastManager navexDesktopLayoutContainer lafAppLayoutHost forceAccess forceStyle oneOne")[0];
-        toastManager.remove();
-    } catch { null }
     var OmniSuperAction;
+
+    function getInitialVariables() {
+        try {
+            console.log("Attempting to load elements from DOM");
+            window.OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus")[0];
+            window.CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
+            window.StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+        } catch {
+            console.log("DOM hasn't completely loaded. Trying again every 1 second");
+            setTimeout(getInitialVariables, 1000)
+        }
+        if (OmniChannelElement == null || CurrentStatus == null || StatusDropdownButton == null) {
+            setTimeout(getInitialVariables, 1000);
+            console.log("DOM hasn't completely loaded. Trying again every 1 second");
+        }
+        else {
+            StatusDropdownButton.click();
+            StatusDropdownButton.click();
+            window.BacklogDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item awayStatus")[0];
+            window.BacklogStatusButton = BacklogDropdownElement.getElementsByTagName("a")[0];
+            window.AvailableDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
+            window.AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
+            window.OfflineDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item offlineStatus")[0];
+            window.OfflineStatusButton = OfflineDropdownElement.getElementsByTagName("a")[0];
+            console.log("All elements were loaded");
+            browser.runtime.sendMessage({
+                command: "allVariablesLoaded"
+            });
+        }
+    }
+
+    getInitialVariables();
 
     function changeToBacklog() {
         try {
-            CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
+            CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
         }
         catch {
             CurrentStatus = "placeholder";
@@ -65,7 +82,7 @@
 
     function changeToAvailable() {
         try {
-            CurrentStatus = OmniChannelElement.getElementsByTagName("span")[0].innerHTML;
+            CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
         }
         catch {
             CurrentStatus = "placeholder";
@@ -175,7 +192,7 @@
     function refreshOmni() {
         try {
             OmniSuperAction = document.querySelector("[title='Actions for Omni Supervisor']");
-            var OmniSuperRefreshButton = OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
+            OmniSuperAction.getElementsByClassName("slds-truncate")[0].click();
         }
         catch (error) {
             console.log("Omni Supervisor was not detected due to", error);
