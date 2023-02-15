@@ -17,23 +17,32 @@
             window.OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus")[0];
             window.CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
             window.StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-        } catch {
-            console.log("DOM hasn't completely loaded. Trying again every 1 second");
+        } catch (error) {
+            console.log("DOM hasn't completely loaded with error (" + error + ") Trying again every 1 second");
             setTimeout(getInitialVariables, 1000)
+            return;
         }
         if (OmniChannelElement == null || CurrentStatus == null || StatusDropdownButton == null) {
             setTimeout(getInitialVariables, 1000);
-            console.log("DOM hasn't completely loaded. Trying again every 1 second");
+            console.log("Some elements are missing. Trying again every 1 second");
+            return;
         }
         else {
             StatusDropdownButton.click();
             StatusDropdownButton.click();
-            window.BacklogDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item awayStatus")[0];
-            window.BacklogStatusButton = BacklogDropdownElement.getElementsByTagName("a")[0];
-            window.AvailableDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
-            window.AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
-            window.OfflineDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item offlineStatus")[0];
-            window.OfflineStatusButton = OfflineDropdownElement.getElementsByTagName("a")[0];
+            try {
+                console.log("Attempting to load Omni-Channel Statuses");
+                window.BacklogDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item awayStatus")[0];
+                window.BacklogStatusButton = BacklogDropdownElement.getElementsByTagName("a")[0];
+                window.AvailableDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item onlineStatus")[0];
+                window.AvailableStatusButton = AvailableDropdownElement.getElementsByTagName("a")[0];
+                window.OfflineDropdownElement = OmniChannelElement.getElementsByClassName("slds-dropdown__item offlineStatus")[0];
+                window.OfflineStatusButton = OfflineDropdownElement.getElementsByTagName("a")[0];
+            } catch (error) {
+                console.log("Statuses were unable to load with error (" + error + ") Trying again every 1 second");
+                setTimeout(getInitialVariables, 1000);
+                return;
+            }
             console.log("All elements were loaded");
             browser.runtime.sendMessage({
                 command: "allVariablesLoaded"
