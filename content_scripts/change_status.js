@@ -12,23 +12,13 @@
     var errorCheckInterval;
     var OmniSuperAction;
 
-    var globalHeader = document.getElementsByClassName("slds-global-header slds-grid slds-grid--align-spread")[0];
-    try {
-        document.getElementById("SHSHActivityText").remove();
-    } catch { null }
-    var SFSHStatusDiv = document.createElement('div');
-    SFSHStatusDiv.id = 'SHSHActivityText';
-    SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
-    SFSHStatusDiv.setAttribute('align', 'center');
-    SFSHStatusDiv.style.fontSize = "medium";
-    globalHeader.insertAdjacentElement('beforebegin', SFSHStatusDiv);
-
     function getInitialVariables() {
         try {
             console.log("Attempting to load elements from DOM");
             window.OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus")[0];
             window.CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
             window.StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
+            window.globalHeader = document.getElementsByClassName("slds-global-header slds-grid slds-grid--align-spread")[0];
         } catch (error) {
             console.log("DOM hasn't completely loaded with error (" + error + ") Trying again every 1 second");
             setTimeout(getInitialVariables, 1000)
@@ -63,6 +53,17 @@
     }
 
     getInitialVariables();
+
+    try {
+        document.getElementById("SHSHActivityText").remove();
+    } catch { null }
+    var SFSHStatusDiv = document.createElement('div');
+    SFSHStatusDiv.id = 'SHSHActivityText';
+    SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
+    SFSHStatusDiv.setAttribute('align', 'center');
+    SFSHStatusDiv.style.fontSize = "medium";
+    SFSHStatusDiv.style.backgroundColor = "#6495ED";
+    globalHeader.insertAdjacentElement('beforebegin', SFSHStatusDiv);
 
     function changeToBacklog() {
         try {
@@ -209,11 +210,11 @@
                 activeCase = "false";
             }
         }
-        if (activeCase == "true") {
-            null;
+        if (activeCase == "false") {
+            refreshOmni();
         }
         else {
-            refreshOmni();
+            null;
         }
     }
 
