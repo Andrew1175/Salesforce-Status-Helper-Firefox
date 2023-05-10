@@ -293,7 +293,7 @@ browser.runtime.onMessage.addListener((message) => {
             type: "basic",
             iconUrl: browser.runtime.getURL("/icons/zscaler-icon-96.png"),
             title: "Salesforce Status Helper",
-            message: "Omni-Channel is in a error state. Refresh the page to correct this issue."
+            message: "Could not connect to Omni-Channel. Refresh the page to try and correct this issue."
         });
         browser.browserAction.setIcon({ path: "/icons/zscaler-icon-24-Error.png" });
     }

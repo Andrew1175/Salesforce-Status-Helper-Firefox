@@ -9,7 +9,19 @@
     var availableInterval;
     var refreshInterval;
     var autoQueueInterval;
+    var errorCheckInterval;
     var OmniSuperAction;
+
+    var globalHeader = document.getElementsByClassName("slds-global-header slds-grid slds-grid--align-spread")[0];
+    try {
+        document.getElementById("SHSHActivityText").remove();
+    } catch { null }
+    var SFSHStatusDiv = document.createElement('div');
+    SFSHStatusDiv.id = 'SHSHActivityText';
+    SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
+    SFSHStatusDiv.setAttribute('align', 'center');
+    SFSHStatusDiv.style.fontSize = "medium";
+    globalHeader.insertAdjacentElement('beforebegin', SFSHStatusDiv);
 
     function getInitialVariables() {
         try {
@@ -159,6 +171,9 @@
         refreshInterval = null;
         clearInterval(autoQueueInterval);
         autoQueueInterval = null;
+        clearInterval(errorCheckInterval);
+        errorCheckInterval = null;
+        SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
         browser.runtime.sendMessage({
             command: "disableNotification"
         });
@@ -173,28 +188,32 @@
         refreshInterval = null;
         clearInterval(autoQueueInterval);
         autoQueueInterval = null;
+        clearInterval(errorCheckInterval);
+        errorCheckInterval = null;
+        SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
         browser.runtime.sendMessage({
             command: "autoQueueDisabled"
         });
     }
 
     function caseCheck() {
-        errorCheck();
-        var tempArray = [];
-        var caseOpen = document.querySelectorAll("a.tabHeader.slds-context-bar__label-action:not([title='US TAC Dashboard'], [title='Omni Supervisor'])");
-        if (caseOpen.length == 0) {
-            refreshOmni();
-        }
-        else {
-            for (let i = 0; i < caseOpen.length; i++) {
-                tempArray.push(caseOpen[i].ariaSelected.toString());
-            }
-            if (tempArray.includes('true')) {
-                null;
+        var userTabs = document.getElementsByClassName('tabBarItems slds-grid')[0];
+        var caseTabs = userTabs.querySelectorAll("[title*='000'][role='tab']");
+        var activeCase;
+        for (let i = 0; i < caseTabs.length; i++) {
+            if (caseTabs[i].ariaSelected == "true") {
+                activeCase = "true";
+                break;
             }
             else {
-                refreshOmni();
+                activeCase = "false";
             }
+        }
+        if (activeCase == "true") {
+            null;
+        }
+        else {
+            refreshOmni();
         }
     }
 
@@ -216,7 +235,7 @@
             }
             catch (error) {
                 console.log("Could not correct error due to:", error);
-                cosole.log("Please be sure Omni Supervisor is open within Salesforce.");
+                console.log("Please be sure Omni Supervisor is open within Salesforce.");
             }
         }
     }
@@ -258,6 +277,7 @@
             null;
         }
         else {
+            console.log("Omni-Channel connection issue detected. Waiting 30 seconds to see if connection can re-establish.");
             setTimeout(errorCheckResolved, 30000);
         }
     }
@@ -270,14 +290,15 @@
             omniErrorMessage = "none";
         }
         if (omniErrorMessage == "none" || omniErrorMessage.includes("no active requests")) {
-            null;
+            console.log("Salesforce Status Helper was able to reconnect to Omni-Channel. Issue was resolved");
         }
         else {
             browser.runtime.sendMessage({
                 command: "omniErrorState"
             });
-            console.log("Salesforce Status Helper could not correct a critical error with Omni-Channel. Refresh the page to correct this error.");
-            alert("Salesforce Status Helper could not correct a critical error with Omni Supervisor. Please refresh the page to correct this error.");
+            console.log("Salesforce Status Helper could not connect to Omni-Channel. Refresh the page to try and correct this error. If this issue persists please gather console logs.");
+            SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: could not connect to Omni-Channel. Refresh the page to try and correct this error.';
+            alert("Salesforce Status Helper could not connect to Omni-Channel. Refresh the page to try and correct this error.");
         }
     }
 
@@ -291,9 +312,13 @@
             refreshInterval = null;
             clearInterval(autoQueueInterval);
             autoQueueInterval = null;
+            clearInterval(errorCheckInterval);
+            errorCheckInterval = null;
             changeToBacklog();
             backlogInterval = setInterval(changeToBacklog, 15000);
             refreshInterval = setInterval(caseCheck, 60000);
+            errorCheckInterval = setInterval(errorCheck, 60000);
+            SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Enabled';
             console.log("You have set your Omni-Channel status to Backlog");
         }
         else if (message.command === "Available") {
@@ -305,9 +330,13 @@
             refreshInterval = null;
             clearInterval(autoQueueInterval);
             autoQueueInterval = null;
+            clearInterval(errorCheckInterval);
+            errorCheckInterval = null;
             changeToAvailable();
             availableInterval = setInterval(changeToAvailable, 15000);
             refreshInterval = setInterval(caseCheck, 60000);
+            errorCheckInterval = setInterval(errorCheck, 60000);
+            SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Enabled';
             console.log("You have set your Omni-Channel status to Available");
         }
         else if (message.command === "Disable") {
@@ -318,7 +347,11 @@
             backlogInterval = null;
             clearInterval(availableInterval);
             availableInterval = null;
+            clearInterval(errorCheckInterval);
+            errorCheckInterval = null;
             autoQueueCheck();
+            errorCheckInterval = setInterval(errorCheck, 60000);
+            SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Enabled with Automated Queue';
             if (autoQueueInterval == null || autoQueueInterval == 'undefined') {
                 autoQueueInterval = setInterval(autoQueueCheck, 15000);
                 browser.runtime.sendMessage({
