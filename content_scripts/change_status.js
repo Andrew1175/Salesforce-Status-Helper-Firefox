@@ -46,6 +46,13 @@
                 return;
             }
             console.log("All elements were loaded");
+            window.SFSHStatusDiv = document.createElement('div');
+            SFSHStatusDiv.id = 'SHSHActivityText';
+            SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
+            SFSHStatusDiv.setAttribute('align', 'center');
+            SFSHStatusDiv.style.fontSize = "medium";
+            SFSHStatusDiv.style.backgroundColor = "#6495ED";
+            globalHeader.insertAdjacentElement('beforebegin', SFSHStatusDiv);
             browser.runtime.sendMessage({
                 command: "allVariablesLoaded"
             });
@@ -53,17 +60,6 @@
     }
 
     getInitialVariables();
-
-    try {
-        document.getElementById("SHSHActivityText").remove();
-    } catch { null }
-    var SFSHStatusDiv = document.createElement('div');
-    SFSHStatusDiv.id = 'SHSHActivityText';
-    SFSHStatusDiv.innerHTML = 'Salesforce Status Helper: Disabled';
-    SFSHStatusDiv.setAttribute('align', 'center');
-    SFSHStatusDiv.style.fontSize = "medium";
-    SFSHStatusDiv.style.backgroundColor = "#6495ED";
-    globalHeader.insertAdjacentElement('beforebegin', SFSHStatusDiv);
 
     function changeToBacklog() {
         try {
