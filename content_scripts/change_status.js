@@ -196,21 +196,22 @@
     function caseCheck() {
         var userTabs = document.getElementsByClassName('tabBarItems slds-grid')[0];
         var caseTabs = userTabs.querySelectorAll("[title*='000'][role='tab']");
-        var activeCase;
-        for (let i = 0; i < caseTabs.length; i++) {
-            if (caseTabs[i].ariaSelected == "true") {
-                activeCase = "true";
-                break;
+        if (caseTabs.length > 0) {
+            for (let i = 0; i < caseTabs.length; i++) {
+                if (caseTabs[i].getAttribute("aria-selected") == "true") {
+                    activeCase = "true";
+                    break;
+                } else {
+                    activeCase = "false";
+                }
             }
-            else {
-                activeCase = "false";
+            if (activeCase == "false") {
+                refreshOmni();
+            } else {
+                return;
             }
-        }
-        if (activeCase == "false") {
+        } else {
             refreshOmni();
-        }
-        else {
-            null;
         }
     }
 
