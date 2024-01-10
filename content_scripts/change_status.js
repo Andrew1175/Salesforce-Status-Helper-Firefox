@@ -255,7 +255,7 @@
                 changeToAvailable();
             }
             else if (items.savedStartShift <= currentTime && items.savedEndShift >= currentTime) {
-                changeToBacklog();
+                changeToOffline()
             }
             else {
                 changeToOffline();
