@@ -18,7 +18,7 @@
             window.OmniChannelElement = document.getElementsByClassName("runtime_service_omnichannelStatus")[0];
             window.CurrentStatus = OmniChannelElement.getElementsByTagName("span")[2].innerHTML;
             window.StatusDropdownButton = OmniChannelElement.getElementsByClassName("slds-button slds-button_icon-container slds-button_icon-x-small")[0];
-            window.globalHeader = document.getElementsByClassName("slds-global-header slds-grid slds-grid--align-spread")[0];
+            window.globalHeader = document.getElementsByClassName("slds-global-header slds-grid slds-grid_align-spread")[0];
         } catch (error) {
             console.log("DOM hasn't completely loaded with error (" + error + ") Trying again every 1 second");
             setTimeout(getInitialVariables, 1000)

@@ -305,6 +305,7 @@ browser.runtime.onMessage.addListener((message) => {
     }
 });
 
+listenForClicks();
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById("saveSettingsButton").addEventListener('click',
     save_options);
@@ -338,7 +339,6 @@ browser.tabs.onUpdated.addListener(() => {
                     listenForClicks();
                 }
             });
-
         }
     });
 });
