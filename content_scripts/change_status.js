@@ -269,8 +269,7 @@
                 changeToAvailable();
             }
             else if (items.savedStartShift <= currentTime && items.savedEndShift >= currentTime) {
-                changeToOffline()
-                //normally this would be changeToBacklog() but the queue system is configured incorrectly and causing case balancing issues
+                changeToBacklog()
             }
             else {
                 changeToOffline();
